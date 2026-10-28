@@ -1,0 +1,5 @@
+// Global styles: tokens, base elements, the shared motion layer.
+// Component styles live next to each component.
+@use 'styles/tokens';
+@use 'styles/base';
+@use 'styles/motion';

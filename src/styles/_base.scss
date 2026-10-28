@@ -1,0 +1,147 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+html:not(.lenis) { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+body.is-locked { overflow: hidden; }
+
+img, svg, video { display: block; max-width: 100%; }
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 380;
+  font-optical-sizing: auto;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+p { margin: 0; text-wrap: pretty; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--pad); }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed; left: 16px; top: -100px; z-index: 200;
+  background: var(--accent); color: var(--accent-ink); padding: 12px 18px; border-radius: 999px; font-weight: 700;
+  &:focus { top: 16px; }
+}
+
+// Italic serif accent used inside display headings.
+.it { font-style: italic; font-weight: 300; color: var(--accent); }
+.cream .it, .on-cream .it { color: var(--laterite); }
+
+// Small section kicker: a dot and a short label.
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: var(--step-small); font-weight: 600; letter-spacing: 0.02em; color: var(--muted);
+  &::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+}
+.cream .kicker { color: var(--cream-muted); &::before { background: var(--laterite); } }
+
+.section-title { font-size: var(--step-head); }
+
+// Buttons: pill, one solid, one outline. The arrow slides on hover.
+.btn {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 56px; padding: 0 26px 0 28px; border-radius: 999px; border: 0;
+  font-weight: 700; font-size: 0.98rem; letter-spacing: 0.005em; white-space: nowrap;
+  background: var(--accent); color: var(--accent-ink);
+  overflow: hidden; isolation: isolate;
+  transition: color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  &::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+    background: var(--ink); transform: translateY(101%); transition: transform var(--dur-base) var(--ease);
+  }
+  &:hover::before, &:focus-visible::before { transform: none; }
+  &:active { transform: scale(0.97); }
+  .arrow {
+    display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-ink); color: var(--accent);
+    transition: transform var(--dur-base) var(--ease), background-color var(--dur-base) var(--ease);
+    svg { width: 14px; height: 14px; }
+  }
+  &:hover .arrow { transform: rotate(-45deg); }
+
+  &.ghost {
+    background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2);
+    &::before { background: var(--ink); }
+    &:hover { color: var(--bg); }
+    .arrow { background: var(--ink); color: var(--bg); }
+    &:hover .arrow { background: var(--bg); color: var(--ink); }
+  }
+  &.dark {
+    background: var(--cream-ink); color: var(--cream);
+    &::before { background: var(--laterite); }
+    .arrow { background: var(--cream); color: var(--cream-ink); }
+  }
+}
+
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 600; background: var(--card-2); color: var(--ink-2);
+}
+
+.num { font-variant-numeric: tabular-nums lining-nums; }
+
+// Range input, shared look
+input[type='range'].range {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 28px; background: transparent; cursor: pointer;
+  --fill: 50%;
+  &::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 99px;
+    background: linear-gradient(to right, var(--accent) var(--fill), var(--line-2) var(--fill));
+  }
+  &::-moz-range-track { height: 6px; border-radius: 99px; background: var(--line-2); }
+  &::-moz-range-progress { height: 6px; border-radius: 99px; background: var(--accent); }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 24px; height: 24px; margin-top: -9px; border-radius: 50%;
+    background: var(--ink); border: 5px solid var(--accent); transition: transform var(--dur-fast) var(--ease);
+  }
+  &::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--ink); border: 5px solid var(--accent); }
+  &:active::-webkit-slider-thumb { transform: scale(1.2); }
+}
+
+// Film grain over the whole page: a tiny SVG noise tile, very faint.
+.grain {
+  position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+}
+
+// Narrow phones: let grid columns shrink and long button labels wrap instead of pushing the page wider.
+.grid > *, .board > *, .top > *, .body > * { min-width: 0; }
+@media (max-width: 400px) {
+  .btn { white-space: normal; text-align: left; padding-block: 10px; line-height: 1.25; }
+  .btn .arrow { flex: 0 0 auto; }
+}
