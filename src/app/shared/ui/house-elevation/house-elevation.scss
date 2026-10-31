@@ -1,0 +1,38 @@
+:host { display: block; aspect-ratio: 1; background: #ecdfc7; overflow: hidden; }
+svg { display: block; width: 100%; height: 100%; }
+
+$slow: 900ms cubic-bezier(.22, 1, .36, 1);
+
+.sky { fill: #f0e3c9; transition: fill $slow; }
+.sun { fill: #f2b544; transition: fill $slow, transform $slow; transform-origin: 318px 70px; }
+.hill { fill: #a9b98e; transition: fill $slow; }
+.palm { fill: #3f6a3e; .trunk { fill: none; stroke: #6b4a2f; stroke-width: 5; stroke-linecap: round; } }
+.palm.far { opacity: .75; }
+.ground { fill: #b7744f; transition: fill $slow; }
+.shadow { fill: rgba(40, 20, 10, .25); }
+.roof { fill: #8c3b25; }
+.tile { fill: #6d2c1a; transition: opacity $slow; }
+.wall { transition: fill $slow, filter $slow; }
+.cornice, .frame, .pillar { fill: #fbf7ee; transition: fill $slow; }
+.seat { fill: #e9e1cf; }
+.opening { fill: #2d2a24; }
+.opening.door { fill: #5a3523; }
+.shell { fill: #f6efdc; transition: fill $slow; }
+.laterite { fill: #a2482f; opacity: 0; transition: opacity $slow; }
+.crack { fill: none; stroke: #4b2c1f; stroke-width: 1.6; opacity: 0; transition: opacity $slow; }
+.weeds { fill: none; stroke: #5d6b37; stroke-width: 2; stroke-linecap: round; opacity: 0; transition: opacity $slow; }
+.flowers { fill: #d3445a; transition: opacity $slow; }
+
+// As found: wash faded to the stone, lime gone in patches, tiles missing, panes broken, dusk sky.
+:host(.is-found) {
+  .sky { fill: #d8d2c3; }
+  .sun { fill: #e3d9c0; }
+  .hill { fill: #9aa38a; }
+  .wall { filter: saturate(.18) brightness(.92) sepia(.25); }
+  .cornice, .frame, .pillar { fill: #d9d2c2; }
+  .laterite, .crack, .weeds { opacity: 1; }
+  .tile.gone { opacity: 0; }
+  .shell.cracked { fill: #2d2a24; }
+  .shell { fill: #cfc6ad; }
+  .flowers { opacity: 0; }
+}

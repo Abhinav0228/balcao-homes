@@ -1,0 +1,75 @@
+<svg [attr.viewBox]="'0 0 ' + size + ' ' + size" preserveAspectRatio="xMidYMax slice" role="img"
+     [attr.aria-label]="'Drawing of the front of ' + house().name + (condition() === 'found' ? ', as found' : ', restored')">
+  <rect class="sky" x="0" y="0" [attr.width]="size" [attr.height]="size" />
+  <circle class="sun" cx="318" cy="70" r="30" />
+  <path class="hill" d="M0 300 C 70 250 140 262 200 280 S 330 250 400 270 V 400 H 0 Z" />
+
+  <!-- palms either side -->
+  <g class="palm" transform="translate(16 330)">
+    <path class="trunk" d="M0 0 C 4 -80 -2 -160 10 -230" />
+    <g transform="translate(10 -230)">
+      <path d="M0 0 C -20 -14 -42 -10 -58 6 C -38 -2 -20 0 0 4Z" /><path d="M0 0 C 18 -18 42 -16 58 0 C 38 -6 18 -4 0 4Z" />
+      <path d="M0 0 C -6 -22 -24 -36 -44 -36 C -26 -28 -12 -16 -2 4Z" /><path d="M0 0 C 8 -24 26 -34 44 -32 C 26 -24 12 -14 2 4Z" />
+      <path d="M0 2 C -14 12 -20 30 -18 46 C -10 30 -4 18 2 6Z" />
+    </g>
+  </g>
+  <g class="palm far" transform="translate(384 326) scale(.9)">
+    <path class="trunk" d="M0 0 C -4 -80 4 -160 -8 -230" />
+    <g transform="translate(-8 -230)">
+      <path d="M0 0 C -20 -14 -42 -10 -58 6 C -38 -2 -20 0 0 4Z" /><path d="M0 0 C 18 -18 42 -16 58 0 C 38 -6 18 -4 0 4Z" />
+      <path d="M0 0 C -6 -22 -24 -36 -44 -36 C -26 -28 -12 -16 -2 4Z" /><path d="M0 0 C 8 -24 26 -34 44 -32 C 26 -24 12 -14 2 4Z" />
+    </g>
+  </g>
+
+  <rect class="ground" x="0" y="318" [attr.width]="size" height="82" />
+  <ellipse class="shadow" cx="200" cy="322" rx="190" ry="8" />
+
+  <polygon class="roof" [attr.points]="roof()" />
+  @for (t of tiles(); track $index) {
+    <rect class="tile" [class.gone]="t.gone" [attr.x]="t.x" [attr.y]="t.y" [attr.width]="t.w" [attr.height]="t.h" />
+  }
+
+  <rect class="wall" [attr.x]="wall().x" [attr.y]="wall().y" [attr.width]="wall().w" [attr.height]="wall().h"
+        [style.fill]="house().paint" />
+  <rect class="cornice" [attr.x]="wall().x - 4" [attr.y]="wall().y" [attr.width]="wall().w + 8" height="10" />
+  <rect class="cornice" [attr.x]="wall().x - 4" [attr.y]="wall().y + wall().h - 10" [attr.width]="wall().w + 8" height="10" />
+
+  @for (p of patches; track $index) {
+    <rect class="laterite" [attr.x]="p.x" [attr.y]="p.y" [attr.width]="p.w" [attr.height]="p.h" />
+  }
+  <path class="crack" d="M300 190 l-8 18 l6 10 l-10 22" />
+  <path class="crack" d="M70 168 l6 14 l-4 12" />
+
+  @for (w of windows(); track $index) {
+    <rect class="frame" [attr.x]="w.x - 5" [attr.y]="w.y - 5" [attr.width]="w.w + 10" [attr.height]="w.h + 10" />
+    <rect class="opening" [class.door]="w.isDoor" [attr.x]="w.x" [attr.y]="w.y" [attr.width]="w.w" [attr.height]="w.h" />
+    @if (!w.isDoor) {
+      @for (p of w.panes; track $index) {
+        <rect class="shell" [class.cracked]="$index % 7 === 3" [attr.x]="p.x" [attr.y]="p.y" [attr.width]="p.w" [attr.height]="p.h" />
+      }
+    }
+  }
+
+  @if (balcao(); as b) {
+    <rect class="opening door" [attr.x]="b.door.x" [attr.y]="b.door.y" [attr.width]="b.door.w" [attr.height]="b.door.h" />
+    <rect class="cornice" [attr.x]="b.roof.x" [attr.y]="b.roof.y" [attr.width]="b.roof.w" [attr.height]="b.roof.h" />
+    @for (p of b.pillars; track $index) {
+      <rect class="pillar" [attr.x]="p.x" [attr.y]="p.y" [attr.width]="p.w" [attr.height]="p.h" />
+    }
+    <rect class="pillar" [attr.x]="b.plinth.x" [attr.y]="b.plinth.y" [attr.width]="b.plinth.w" [attr.height]="b.plinth.h" />
+    @for (s of b.seats; track $index) {
+      <rect class="seat" [attr.x]="s.x" [attr.y]="s.y" [attr.width]="s.w" [attr.height]="s.h" />
+    }
+    @for (s of b.steps; track $index) {
+      <rect class="pillar" [attr.x]="s.x" [attr.y]="s.y" [attr.width]="s.w" [attr.height]="s.h" />
+    }
+  }
+
+  <!-- weeds on a house as found, flowers when restored -->
+  <g class="weeds">
+    <path d="M40 318 l4 -18 l3 18 M52 318 l-3 -14 l6 -6 M356 318 l3 -16 l4 16 M340 318 l2 -10" />
+  </g>
+  <g class="flowers">
+    <circle cx="48" cy="312" r="5" /><circle cx="60" cy="314" r="4" /><circle cx="342" cy="312" r="5" /><circle cx="354" cy="314" r="4" />
+  </g>
+</svg>
