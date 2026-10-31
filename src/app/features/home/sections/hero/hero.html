@@ -1,0 +1,43 @@
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="slides" aria-hidden="true">
+    @for (s of slides; track s.src; let i = $index) {
+      <img [src]="s.src" [width]="s.width" [height]="s.height" alt=""
+           [class.is-active]="i === index()" [attr.loading]="i === 0 ? 'eager' : 'lazy'" [attr.fetchpriority]="i === 0 ? 'high' : null" decoding="async" />
+    }
+  </div>
+  <div class="scrim" aria-hidden="true"></div>
+
+  <div class="content wrap">
+    <p class="kicker rise" style="--d: 0ms">{{ state.forSale }} Portuguese-era houses for sale in Goa</p>
+    <h1 id="hero-title" appSplit [splitWhen]="motion.ready()" [splitDelay]="150">Old Goan houses, <span class="it">restored.</span></h1>
+
+    <div class="lower">
+      <p class="lede rise" style="--d: 700ms">We find Portuguese-era houses across Goa, clear their titles, and restore them in lime, laterite and oyster shell before we sell them.</p>
+      <div class="actions rise" style="--d: 850ms">
+        <a class="btn" href="#houses" (click)="scroll($event, '#houses')" appMagnetic>See the houses <span class="arrow"><app-arrow /></span></a>
+        <a class="btn ghost" href="#calculator" (click)="scroll($event, '#calculator')" appMagnetic>Work out the monthly cost <span class="arrow"><app-arrow /></span></a>
+      </div>
+    </div>
+  </div>
+
+  <a class="feature rise" style="--d: 1000ms" href="#calculator" (click)="scroll($event, '#calculator')" appTilt data-cursor="Open">
+    <app-house-elevation [house]="featured" />
+    <span class="feature-text">
+      <span class="feature-tag">Featured · {{ featured.village }}</span>
+      <strong>{{ featured.name }}</strong>
+      <span class="num">{{ featured.bedrooms }} bed · {{ featured.area }} m² · {{ featured.priceRestored | inr }}</span>
+    </span>
+  </a>
+
+  <div class="foot wrap rise" style="--d: 1100ms">
+    <div class="pager" role="group" aria-label="Photographs">
+      @for (s of slides; track s.src; let i = $index) {
+        <button type="button" [class.is-on]="i === index()" (click)="goTo(i)" [attr.aria-label]="'Show photograph ' + (i + 1) + ': ' + s.caption" [attr.aria-pressed]="i === index()">
+          <i [style.animation-duration.ms]="duration"></i>
+        </button>
+      }
+    </div>
+    <p class="caption" aria-live="polite"><span class="num">0{{ index() + 1 }}</span> {{ current().caption }}</p>
+    <a class="scroll-cue" href="#story" (click)="scroll($event, '#story')"><span>Scroll</span><i aria-hidden="true"></i></a>
+  </div>
+</section>
