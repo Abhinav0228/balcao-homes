@@ -1,0 +1,28 @@
+<header class="bar">
+  <a class="brand" href="#top" (click)="go($event, '#top')" aria-label="Balcão Homes, back to top">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 14 16 5l13 9z" /><rect x="6" y="14" width="20" height="13" /><rect class="cut" x="9.5" y="17.5" width="3.5" height="5" /><rect class="cut" x="19" y="17.5" width="3.5" height="5" /><rect class="cut" x="14.25" y="19" width="3.5" height="8" /></svg>
+    <span>Balcão <em>Homes</em></span>
+  </a>
+
+  <nav class="links" aria-label="Main">
+    @for (l of links; track l.href) {
+      <a [href]="l.href" (click)="go($event, l.href)"><span class="roll"><span [attr.data-t]="l.label">{{ l.label }}</span></span></a>
+    }
+  </nav>
+
+  <a class="btn cta" href="#visit" (click)="go($event, '#visit')" appMagnetic>Book a visit <span class="arrow"><app-arrow /></span></a>
+
+  <button class="burger" type="button" (click)="toggle()" [attr.aria-expanded]="open()" aria-controls="menu">
+    <span class="visually-hidden">{{ open() ? 'Close menu' : 'Open menu' }}</span>
+    <i></i><i></i>
+  </button>
+</header>
+
+<div class="menu" id="menu" [attr.aria-hidden]="!open()" [attr.inert]="open() ? null : ''">
+  <nav aria-label="Menu">
+    @for (l of links; track l.href; let i = $index) {
+      <a [href]="l.href" (click)="go($event, l.href)" [style.--i]="i"><small class="num">0{{ i + 1 }}</small>{{ l.label }}</a>
+    }
+  </nav>
+  <a class="btn" href="#visit" (click)="go($event, '#visit')">Book a Saturday visit <span class="arrow"><app-arrow /></span></a>
+</div>
