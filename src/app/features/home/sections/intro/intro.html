@@ -1,0 +1,48 @@
+<section class="intro cream" id="story" aria-labelledby="story-title">
+  <div class="wrap">
+    <div class="top" appReveal>
+      <div class="lead">
+        <p class="kicker" data-rise>Who we are</p>
+        <h2 id="story-title" class="section-title" appSplit>Built from the hill <span class="it">behind them</span></h2>
+      </div>
+      <p class="aside" data-rise>Many of these houses stand empty, shared between a dozen heirs, losing a few tiles every monsoon. We take them on one at a time.</p>
+    </div>
+
+    <div class="body">
+      <p class="statement" appScrollWords>
+        A Goan house of the 1800s came from the ground it stands on: red laterite cut from the hill, lime burnt from shells, clay tiles laid on teak. We settle the title, restore it with the same materials and the masons who still know how, and sell it, finished, to people who will live in it.
+      </p>
+
+      <div class="collage" aria-label="Photographs of old Goan houses" role="group">
+        <figure class="c1" appReveal><div class="frame" data-curtain><img [src]="photos.natal.src" [alt]="photos.natal.alt" loading="lazy" decoding="async" appParallax="8" /></div><figcaption>{{ photos.natal.caption }}</figcaption></figure>
+        <figure class="c2" appReveal><div class="frame" data-curtain style="--rise-delay: 200ms"><img [src]="photos.chandorHall.src" [alt]="photos.chandorHall.alt" loading="lazy" decoding="async" appParallax="10" /></div><figcaption>{{ photos.chandorHall.caption }}</figcaption></figure>
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 200 200"><defs><path id="circ" d="M100 100 m-78 0 a78 78 0 1 1 156 0 a78 78 0 1 1 -156 0" /></defs>
+            <text><textPath href="#circ">Lime · Laterite · Oyster shell · Teak & tile · </textPath></text></svg>
+          <span>oldest<br><b>{{ oldest }}</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="materials" appReveal>
+      <h3 class="mat-title" data-rise>Four materials, <span class="it">the same as in 1890</span></h3>
+      <div class="panels" data-rise>
+        @for (m of materials; track m.name; let i = $index) {
+          <button type="button" class="panel" [class.is-open]="open() === i" (pointerenter)="open.set(i)" (focus)="open.set(i)" (click)="open.set(i)" [attr.aria-expanded]="open() === i">
+            <img [src]="m.photo.src" alt="" loading="lazy" decoding="async" />
+            <span class="shade" aria-hidden="true"></span>
+            <span class="p-name">{{ m.name }}</span>
+            <span class="p-line">{{ m.line }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <dl class="stats" appReveal>
+      <div data-rise><dt>Houses on our books</dt><dd class="num" [appCountUp]="count" [plain]="true">{{ count }}</dd></div>
+      <div data-rise><dt>Oldest, built in</dt><dd class="num" [appCountUp]="oldest" [plain]="true">{{ oldest }}</dd></div>
+      <div data-rise><dt>Months, signing to keys</dt><dd class="num"><span [appCountUp]="9" [plain]="true">9</span></dd></div>
+      <div data-rise><dt>Years of title we trace</dt><dd class="num" [appCountUp]="30" [plain]="true">30</dd></div>
+    </dl>
+  </div>
+</section>
