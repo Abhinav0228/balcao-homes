@@ -1,0 +1,76 @@
+<section class="showcase" id="calculator" aria-labelledby="calc-title">
+  <div class="wrap">
+    <header class="head" appReveal>
+      <div>
+        <p class="kicker" data-rise>The two prices</p>
+        <h2 id="calc-title" class="section-title" appSplit>Every house has <span class="it">two prices</span></h2>
+      </div>
+      <p class="intro" data-rise>Buy it as we found it and restore it yourself, or buy it finished with the keys in months. Drag across the drawing to see the difference, then work out what you would pay each month.</p>
+    </header>
+
+    <div class="board" appReveal="120">
+      <!-- Before / after -->
+      <div class="compare" data-rise data-cursor="Drag">
+        <div class="layer restored"><app-house-elevation [house]="state.house()" condition="restored" /></div>
+        <div class="layer found" [style.clip-path]="'inset(0 ' + (100 - split()) + '% 0 0)'"><app-house-elevation [house]="state.house()" condition="found" /></div>
+        <div class="divider" [style.left.%]="split()" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <span class="tag left" [class.dim]="split() < 18">As found · {{ state.house().priceAsFound | inr }}</span>
+        <span class="tag right" [class.dim]="split() > 82">Restored · {{ state.house().priceRestored | inr }}</span>
+        <label class="visually-hidden" for="split">Compare the house as found and restored</label>
+        <input id="split" class="split-range" type="range" min="0" max="100" step="1" [value]="split()" (input)="setSplit($event)" />
+      </div>
+
+      <!-- Details and calculator -->
+      <div class="panel" data-rise>
+        <div class="tabs" role="tablist" aria-label="Houses">
+          @for (h of state.tabs(); track h.id) {
+            <button type="button" role="tab" [attr.aria-selected]="h.id === state.houseId()" [class.is-on]="h.id === state.houseId()" (click)="pick(h.id)">
+              <i [style.background]="h.paint"></i>{{ h.name }}
+            </button>
+          }
+        </div>
+
+        <div class="facts" role="tabpanel" [attr.aria-label]="state.house().name">
+          <p class="where">{{ state.house().village }}, {{ state.house().taluka }}</p>
+          <h3>{{ state.house().name }}</h3>
+          <p class="note">{{ state.house().note }}</p>
+          <ul class="specs num">
+            <li><b>{{ state.house().built }}</b><span>Built</span></li>
+            <li><b>{{ state.house().bedrooms }}</b><span>Bedrooms</span></li>
+            <li><b>{{ state.house().area }} m²</b><span>House</span></li>
+            <li><b>{{ state.house().plot.toLocaleString('en-IN') }} m²</b><span>Plot</span></li>
+          </ul>
+        </div>
+
+        <div class="prices" role="radiogroup" aria-label="Which price">
+          <button type="button" role="radio" class="price" [attr.aria-checked]="state.condition() === 'found'" [class.is-on]="state.condition() === 'found'" (click)="setCondition('found')">
+            <span class="p-label">As found</span>
+            <span class="p-value num">{{ state.house().priceAsFound | inr }}</span>
+            <span class="p-sub">You restore it, with our survey and drawings</span>
+          </button>
+          <button type="button" role="radio" class="price" [attr.aria-checked]="state.condition() === 'restored'" [class.is-on]="state.condition() === 'restored'" (click)="setCondition('restored')">
+            <span class="p-label">Restored</span>
+            <span class="p-value num">{{ state.house().priceRestored | inr }}</span>
+            <span class="p-sub">Keys in {{ state.house().restoreMonths }} months</span>
+          </button>
+        </div>
+
+        <div class="loan">
+          <div class="monthly">
+            <span class="m-label">Your monthly instalment</span>
+            <p class="m-value num" aria-live="polite"><span>{{ monthlyText() }}</span><small>/ month</small></p>
+            <span class="m-terms">Over {{ site.loanYears }} years at {{ ratePct }}%. Your bank’s rate decides the final figure.</span>
+          </div>
+          <div class="down">
+            <label for="down">Down payment <strong class="num">{{ downPct() }}% · {{ state.downPayment() | inr }}</strong></label>
+            <input id="down" class="range" type="range" min="20" max="60" step="5" [value]="downPct()" [style.--fill.%]="(downPct() - 20) / 40 * 100" (input)="setDown($event)" />
+            <div class="splitbar" aria-hidden="true"><i [style.width.%]="downPct()"></i></div>
+            <p class="legend num"><span><i class="k1"></i>You pay {{ state.downPayment() | inr }}</span><span><i class="k2"></i>Bank lends {{ state.loan() | inr }}</span></p>
+          </div>
+        </div>
+
+        <a class="btn" [href]="visitHref()" appMagnetic="0.15">Ask to see {{ state.house().name }} <span class="arrow"><app-arrow /></span></a>
+      </div>
+    </div>
+  </div>
+</section>
