@@ -1,0 +1,98 @@
+<section class="listings" id="houses" aria-labelledby="houses-title">
+  <div class="wrap">
+    <header class="head" appReveal>
+      <div>
+        <p class="kicker" data-rise>On our books now</p>
+        <h2 id="houses-title" class="section-title" appSplit>The houses <span class="it">for sale</span></h2>
+      </div>
+      <div class="controls" data-rise>
+        <div class="filters" role="group" aria-label="Filter by taluka">
+          @for (f of filters; track f) {
+            <button type="button" [class.is-on]="state.filter() === f" [attr.aria-pressed]="state.filter() === f" (click)="setFilter(f)">
+              {{ f }} <sup class="num">{{ counts()[f] }}</sup>
+            </button>
+          }
+        </div>
+        <label class="sort">
+          <span class="visually-hidden">Sort houses</span>
+          <select (change)="setSort($event)" [value]="state.sort()">
+            <option value="featured">Featured first</option>
+            <option value="low">Price, low to high</option>
+            <option value="high">Price, high to low</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </label>
+      </div>
+    </header>
+
+    @for (g of [generation]; track g) {
+      <ul class="grid" aria-live="polite">
+        @for (h of state.visible(); track h.id; let i = $index) {
+          <li class="card-wrap" [style.--i]="i">
+            <article class="card" [class.is-offer]="h.status === 'under offer'" appTilt="6">
+              <button type="button" class="hit" (click)="openHouse(h)" data-cursor="View" [attr.aria-label]="'Open ' + h.name + ', ' + h.village"></button>
+              <div class="pic">
+                <app-house-elevation [house]="h" />
+                <span class="status" [class.offer]="h.status === 'under offer'">{{ h.status === 'under offer' ? 'Under offer' : 'For sale' }}</span>
+                @if (h.featured) { <span class="feat">Featured</span> }
+              </div>
+              <div class="info">
+                <p class="where">{{ h.village }} · {{ h.taluka }}</p>
+                <h3>{{ h.name }}</h3>
+                <ul class="meta num">
+                  <li>{{ h.bedrooms }} bed</li><li>{{ h.area }} m²</li><li>Built {{ h.built }}</li>
+                </ul>
+                <div class="price">
+                  <span class="num">{{ h.priceRestored | inr }}</span>
+                  <small class="num">or {{ h.priceAsFound | inr }} as found</small>
+                </div>
+              </div>
+              <span class="go" aria-hidden="true"><app-arrow /></span>
+            </article>
+          </li>
+        }
+        <li class="card-wrap" [style.--i]="state.visible().length">
+          <a class="card ask" href="#visit" (click)="toVisit($event)">
+            <span class="ask-top">
+              <span class="ask-mark" aria-hidden="true">?</span>
+              <span class="where">Not on the list yet</span>
+            </span>
+            <span class="ask-title">Looking for something we do not have?</span>
+            <span class="ask-text">We take on six or seven houses a year. Tell us the village, the size and the budget and we will call you before it is listed.</span>
+            <span class="btn dark">Tell us what you need <span class="arrow"><app-arrow /></span></span>
+          </a>
+        </li>
+      </ul>
+    }
+  </div>
+</section>
+
+<dialog #drawer class="drawer" (close)="closed()" (click)="closeFromBackdrop($event)" aria-labelledby="drawer-title">
+  @if (state.drawerHouse(); as h) {
+    <div class="sheet">
+      <button type="button" class="close" (click)="state.drawerId.set(null)" aria-label="Close"><span></span><span></span></button>
+      <div class="d-pic"><app-house-elevation [house]="h" /></div>
+      <div class="d-body">
+        <p class="where">{{ h.village }} · {{ h.taluka }} · {{ h.status === 'under offer' ? 'Under offer' : 'For sale' }}</p>
+        <h3 id="drawer-title">{{ h.name }}</h3>
+        <p class="note">{{ h.note }}</p>
+        <dl class="d-specs num">
+          <div><dt>Built</dt><dd>{{ h.built }}</dd></div>
+          <div><dt>Bedrooms</dt><dd>{{ h.bedrooms }}</dd></div>
+          <div><dt>House</dt><dd>{{ h.area }} m²</dd></div>
+          <div><dt>Plot</dt><dd>{{ h.plot.toLocaleString('en-IN') }} m²</dd></div>
+          <div><dt>Window bays</dt><dd>{{ h.bays }}</dd></div>
+          <div><dt>Balcão</dt><dd>{{ h.balcao ? 'Yes' : 'No' }}</dd></div>
+        </dl>
+        <div class="d-prices">
+          <div><span>As found</span><b class="num">{{ h.priceAsFound | inr }}</b></div>
+          <div class="on"><span>Restored, keys in {{ h.restoreMonths }} months</span><b class="num">{{ h.priceRestored | inr }}</b></div>
+        </div>
+        <div class="d-actions">
+          <a class="btn" [href]="visitHref(h)">Ask to see it <span class="arrow"><app-arrow /></span></a>
+          <button type="button" class="btn ghost" (click)="toCalculator(h)">Work out the monthly cost <span class="arrow"><app-arrow /></span></button>
+        </div>
+      </div>
+    </div>
+  }
+</dialog>
