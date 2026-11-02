@@ -1,0 +1,42 @@
+<section class="process cream" id="process" aria-labelledby="process-title">
+  <div class="wrap grid">
+    <div class="side">
+      <div class="sticky" appReveal>
+        <p class="kicker" data-rise>How it works</p>
+        <h2 id="process-title" class="section-title" appSplit>From first visit <span class="it">to keys</span></h2>
+        <p class="lede" data-rise>A restored house takes about nine months from the day you sign. You can visit at every stage, and we send photographs of the work every Friday.</p>
+        <figure class="rain" data-rise>
+          <app-ambient-video [sources]="clip.sources" [poster]="clip.poster" [width]="clip.width" [height]="clip.height" [label]="clip.label" />
+          <figcaption><b>No roofs open in the monsoon.</b> Between June and September we work indoors, so a restoration that starts in spring is finished before the rains come back.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <span class="line" aria-hidden="true"><span class="line-fill"></span></span>
+      <ol class="phases">
+      @for (s of stages; track s.when) {
+        <li class="phase">
+          <h3>{{ s.when }}</h3>
+          <ol>
+            @for (step of s.steps; track step.what) {
+              <li class="step">
+                <span class="node" aria-hidden="true"></span>
+                <span class="what">{{ step.what }}</span>
+                <span class="time num">{{ step.time }}</span>
+              </li>
+            }
+          </ol>
+        </li>
+      }
+      <li class="phase final">
+        <div class="step keys">
+          <span class="node" aria-hidden="true"></span>
+          <span class="what">{{ result.what }}</span>
+          <span class="time big num">{{ result.time }}</span>
+        </div>
+      </li>
+      </ol>
+    </div>
+  </div>
+</section>

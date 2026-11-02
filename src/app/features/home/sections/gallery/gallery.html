@@ -1,0 +1,20 @@
+<section class="gallery" id="goa" aria-labelledby="goa-title">
+  <div class="pin">
+    <div class="track">
+      <div class="intro">
+        <p class="kicker">Where you would live</p>
+        <h2 id="goa-title" class="section-title" appSplit>The Goa <span class="it">around them</span></h2>
+        <p class="lede">Ballrooms under painted ceilings, lanes of ochre and blue, paddy that floods green each monsoon. These are the villages and streets our houses stand in.</p>
+        <p class="hint" aria-hidden="true"><span class="hint-line"></span>Keep scrolling</p>
+      </div>
+      @for (it of items; track it.photo.src; let i = $index) {
+        <figure class="shot" [class.tall]="it.size === 'tall'" [class.low]="i % 2 === 1">
+          <div class="frame" data-cursor="Goa"><img [src]="it.photo.src" [alt]="it.photo.alt" loading="lazy" decoding="async" /></div>
+          <figcaption><span class="num">{{ (i + 1).toString().padStart(2, '0') }}</span>{{ it.photo.caption }}</figcaption>
+        </figure>
+      }
+      <div class="end" aria-hidden="true"></div>
+    </div>
+    <div class="progress" aria-hidden="true"><i></i></div>
+  </div>
+</section>
