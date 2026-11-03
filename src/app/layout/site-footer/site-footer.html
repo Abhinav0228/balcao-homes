@@ -1,0 +1,54 @@
+<footer class="footer">
+  <div class="wrap">
+    <div class="top" appReveal>
+      <p class="big" data-rise>Looking for an old house in Goa?</p>
+      <a class="circle" href="#visit" (click)="go($event, '#visit')" appMagnetic="0.4" data-rise>
+        <span>Book a visit</span><span class="ic"><app-arrow /></span>
+      </a>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h2 class="h">Visit</h2>
+        <p>{{ site.office }}</p>
+        <p>Saturdays 9–1, weekdays by appointment</p>
+      </div>
+      <div>
+        <h2 class="h">Talk</h2>
+        <p><a [href]="site.phoneHref">{{ site.phone }}</a></p>
+        <p><a [href]="'mailto:' + site.email">{{ site.email }}</a></p>
+      </div>
+      <nav aria-label="Footer">
+        <h2 class="h">Explore</h2>
+        <a href="#houses" (click)="go($event, '#houses')">Houses</a>
+        <a href="#calculator" (click)="go($event, '#calculator')">Two prices</a>
+        <a href="#process" (click)="go($event, '#process')">How it works</a>
+        <a href="#questions" (click)="go($event, '#questions')">Questions</a>
+      </nav>
+      <div>
+        <h2 class="h">Follow</h2>
+        <p><a [href]="site.instagram" target="_blank" rel="noopener">Instagram</a></p>
+        <p><a [href]="site.whatsapp" target="_blank" rel="noopener">WhatsApp</a></p>
+      </div>
+    </div>
+  </div>
+
+  <p class="wordmark" aria-hidden="true">Balcão<span>Homes</span></p>
+
+  <div class="wrap bottom">
+    <p>© {{ year }} {{ site.name }}. Old Goan houses, restored.</p>
+    <a href="#top" class="up" (click)="go($event, '#top')">Back to top ↑</a>
+  </div>
+
+  <details class="wrap credits">
+    <summary>Photograph credits</summary>
+    <p>
+      Photographs and film from Wikimedia Commons, of Goa’s streets, old houses and countryside; none shows a house we sell.
+      @for (p of photos; track p.src; let last = $last) {
+        <a [href]="p.credit.source" rel="noopener" target="_blank">{{ p.credit.title }}</a>, {{ p.credit.author }}, {{ p.credit.licence }}{{ last ? '.' : ';' }}
+      }
+      Film: <a [href]="clip.credit.source" rel="noopener" target="_blank">{{ clip.credit.title }}</a>, {{ clip.credit.author }}, {{ clip.credit.licence }}.
+      Drawings of the houses are ours.
+    </p>
+  </details>
+</footer>
