@@ -1,0 +1,52 @@
+<section class="contact" id="visit" aria-labelledby="visit-title">
+  <div class="wrap grid">
+    <div class="left" appReveal>
+      <p class="kicker" data-rise>Book a visit</p>
+      <h2 id="visit-title" class="section-title" appSplit>Come and see them <span class="it">on a Saturday</span></h2>
+      <p class="lede" data-rise>We show houses on Saturday mornings, when the light is best, and on weekdays by appointment. Tell us what you are looking for and we will plan the route.</p>
+      <figure class="pic" data-curtain>
+        <img [src]="photo.src" [alt]="photo.alt" loading="lazy" decoding="async" appParallax="8" />
+      </figure>
+      <ul class="ways" data-rise>
+        <li><span>Call</span><a [href]="site.phoneHref">{{ site.phone }}</a></li>
+        <li><span>Write</span><a [href]="'mailto:' + site.email">{{ site.email }}</a></li>
+        <li><span>Office</span><p>{{ site.office }}</p></li>
+      </ul>
+    </div>
+
+    <form class="form" (submit)="send($event)" appReveal="70">
+      <h3 data-rise>Plan my Saturday</h3>
+      <label class="field" data-rise>
+        <span>Your name</span>
+        <input type="text" name="name" autocomplete="name" placeholder="Maria D’Souza" (input)="name.set(val($event))" />
+      </label>
+      <label class="field" data-rise>
+        <span>The house you would like to see</span>
+        <select name="house" (change)="houseId.set(val($event))">
+          <option value="any">Show me a few</option>
+          @for (h of state.houses; track h.id) {
+            @if (h.status === 'available') { <option [value]="h.id">{{ h.name }}, {{ h.village }}</option> }
+          }
+        </select>
+      </label>
+      <fieldset class="field" data-rise>
+        <legend>Budget</legend>
+        <div class="pills">
+          @for (b of budgets; track b) {
+            <label class="pill" [class.is-on]="budget() === b">
+              <input type="radio" name="budget" [value]="b" [checked]="budget() === b" (change)="budget.set(b)" />{{ b }}
+            </label>
+          }
+        </div>
+      </fieldset>
+      <label class="field" data-rise>
+        <span>Anything else</span>
+        <textarea name="message" rows="3" placeholder="Bedrooms, a village you love, when you are in Goa…" (input)="message.set(val($event))"></textarea>
+      </label>
+      <div class="send" data-rise>
+        <button type="submit" class="btn" appMagnetic="0.15">{{ sent() ? 'Opening your email…' : 'Send to Balcão Homes' }} <span class="arrow"><app-arrow /></span></button>
+        <p>Opens your email app with this filled in.</p>
+      </div>
+    </form>
+  </div>
+</section>
